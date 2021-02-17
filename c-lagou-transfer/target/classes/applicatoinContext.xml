@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd">
+    <bean id="accountDao" class="com.lagou.edu.dao.impl.JdbcAccountDaoImpl">
+        <property name="ConnectionUtils" ref="connectionUtils"/>
+    </bean>
+    <bean id="transferService" class="com.lagou.edu.service.impl.TransferServiceImpl">
+        <property name="AccountDao" ref="accountDao"></property>
+    </bean>
+
+    <bean id="connectionUtils" class="com.lagou.edu.utils.ConnectionUtils"></bean>
+    <bean id="transcationManager" class="com.lagou.edu.utils.TranscationManager">
+        <property name="ConnectionUtils" ref="connectionUtils"/>
+    </bean>
+    <bean id="proxyFactory" class="com.lagou.edu.factory.ProxyFactory">
+        <property name="TranscationManager" ref="transcationManager"/>
+    </bean>
+</beans>
